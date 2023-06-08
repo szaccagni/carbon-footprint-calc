@@ -80,6 +80,7 @@ body {
 }
 
 .result-small-top { 
+  display: flex;
   background-color: darkgoldenrod;
   border-radius: 25px;
   margin: 15px 0;
@@ -98,7 +99,6 @@ body {
 }
 
 .pie-chart-container {
-  height: 200px;
   width: 80%;
   margin: 5px auto
 }

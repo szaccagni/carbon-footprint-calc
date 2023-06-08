@@ -16,7 +16,6 @@ export default function Result({zipCodeData}) {
                 <div className='result-small-text' style={{color: 'grey'}}>{resultsSummary}</div>
             </div>
             <div className="result-small-top">
-                <div className='result-small-text'>breakdown</div>
                 <PieChart zipCodeData={zipCodeData}/>
             </div>
             <div className="result-small-bottom">
