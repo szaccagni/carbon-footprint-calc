@@ -3,23 +3,68 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function TravelQuestions() {
+export default function TravelQuestions({setShowNext}) {
+    const [totalQuestions, setTotalQuestions] = useState(3)
+    const [questionsAnswered, setQuestionsAnswered] = useState(0)
     const [hasCar, setHasCar] = useState('')
+    const [carType, setCarType] = useState('')
+    const [carUse, setCarUse] = useState('')
     const [takesPublic, setTakesPublic] = useState('')
+    const [publicUse, setPublicUse] = useState('')
     const [flies, setFlies] = useState('')
+    const [flightUse, setFlightUse] = useState('')
+    
+    useEffect(function() {
+        if (totalQuestions === questionsAnswered) {
+            setShowNext(true)
+        } else {
+            setShowNext(false)
+        }
+    }, [totalQuestions, questionsAnswered, setShowNext])
 
     function handleCar(e) {
-        e.value === 'false' ? setHasCar(false) : setHasCar(true)
+        if (hasCar === '') setQuestionsAnswered(questionsAnswered+1)
+        if (e.value === 'false') {
+            setHasCar(false)
+            countQuestions(false, takesPublic, flies)
+        } else {
+            setHasCar(true)
+            countQuestions(true, takesPublic, flies)
+        } 
     }
     
     function handleFlight(e) {
-        e.value === 'false' ? setFlies(false) : setFlies(true)
+        if (flies === '') setQuestionsAnswered(questionsAnswered+1)
+        if (e.value === 'false') {
+            setFlies(false)
+            countQuestions(hasCar, takesPublic, false)
+        } else {
+            setFlies(true)
+            countQuestions(hasCar, takesPublic, true)
+        }
+        
     }
 
     function handlePublic(e) {
-        e.value === 'false' ? setTakesPublic(false) : setTakesPublic(true)
+        if (takesPublic === '') setQuestionsAnswered(questionsAnswered+1)
+        if (e.value === 'false') {
+            setTakesPublic(false)
+            countQuestions(hasCar, false, flies)
+        } else {
+            setTakesPublic(true)
+            countQuestions(hasCar, true, flies)
+        }
+    }
+
+    function countQuestions(car, trainBus, plane) {
+        console.log(car, trainBus, plane)
+        let total = 0
+        car ? total += 3 : total += 1
+        trainBus ? total += 2 : total += 1
+        plane ? total += 2 : total += 1
+        setTotalQuestions(total)
     }
 
     return (
@@ -46,6 +91,11 @@ export default function TravelQuestions() {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
+                        value={carType}
+                        onChange={(e) => {
+                            if (carType === '') setQuestionsAnswered(questionsAnswered+1)
+                            setCarType(e.target.value)
+                        }}
                     >
                         <FormControlLabel value="electric" control={<Radio color="success"/>} label="Electric" />
                         <FormControlLabel value="hybrid" control={<Radio color="success"/>} label="Hybrid" />
@@ -59,6 +109,11 @@ export default function TravelQuestions() {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
+                        value={carUse}
+                        onChange={(e) => {
+                            if (carUse === '') setQuestionsAnswered(questionsAnswered+1)
+                            setCarUse(e.target.value)
+                        }}
                     >
                         <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every Day" />
                         <FormControlLabel value="few times weekly" control={<Radio color="success"/>} label="A few times a week" />
@@ -90,6 +145,11 @@ export default function TravelQuestions() {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
+                        value={publicUse}
+                        onChange={(e) => {
+                            if (publicUse === '') setQuestionsAnswered(questionsAnswered+1)
+                            setPublicUse(e.target.value)
+                        }}
                     >
                         <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every Day" />
                         <FormControlLabel value="few times weekly" control={<Radio color="success"/>} label="A few times a week" />
@@ -121,6 +181,11 @@ export default function TravelQuestions() {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
+                        value={flightUse}
+                        onChange={(e) => {
+                            if (flightUse === '') setQuestionsAnswered(questionsAnswered+1)
+                            setFlightUse(e.target.value)
+                        }}
                     >
                         <FormControlLabel value='monthly' control={<Radio color="success"/>} label="A few times a month" />
                         <FormControlLabel value='yearly' control={<Radio color="success"/>} label="A few times a year" />

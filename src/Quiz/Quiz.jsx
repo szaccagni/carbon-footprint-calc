@@ -11,6 +11,7 @@ export default function Quiz({setShowResult, resetApp}) {
     const [location, setLocation] = useState('')
     const [zipCodeData, setZipCodeData] = useState('')
     const [error, setError] = useState('')
+    const [showNext, setShowNext] = useState(false)
 
     const questionCount = 2
 
@@ -23,6 +24,7 @@ export default function Quiz({setShowResult, resetApp}) {
             setZipCodeData(zipData[0])
             setLocation(`${zipData[0].city}, ${zipData[0].state}`)
             setError('')
+            setShowNext(true)
         } catch (error) {
             setError('could not find zip code, please try again')
         }
@@ -35,6 +37,7 @@ export default function Quiz({setShowResult, resetApp}) {
             setCurQuestion(0)
         } else {
             setCurQuestion(nextQuestion)
+            setShowNext(false)
         }
     }
 
@@ -56,10 +59,10 @@ export default function Quiz({setShowResult, resetApp}) {
                 <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading} error={error}/>
             }
             { (curQuestion === 2) &&
-                <TravelQuestions />
+                <TravelQuestions setShowNext={setShowNext}/>
             }
             </div>        
-            {location &&
+            {showNext &&
                 <Button
                     className='quiz-btn App-btn'
                     onClick={updateQuestion}
