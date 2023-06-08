@@ -10,7 +10,7 @@ export default function Quiz({setShowResult}) {
     const [location, setLocation] = useState('')
     const [zipCodeData, setZipCodeData] = useState({})
 
-    const questionCount = 1
+    const questionCount = 2
 
     async function findZip() {
         setLocationLoading(1)
@@ -38,7 +38,7 @@ export default function Quiz({setShowResult}) {
         <div className='quiz'>
             <div className='quiz-question'>
             { (curQuestion === 1) && 
-            <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading}/>
+                <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading}/>
             }
             </div>        
             {location &&

@@ -2,11 +2,12 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import HouseholdQuestions from '../QuizQuestions/HouseholdQuestions';
 
 export default function ZipCode({zipCode, setZipCode, findZip, location, locationLoading}) {
     return (
         <>
-            <div>please input the zip code of your primary residence:</div>
+            <div className='question-text'>Please input the zip code of your primary residence:</div>
             <Paper
                 component="form"
                 style={{ padding: '4px', display: 'flex', alignItems: 'center', width: '30%' }}
@@ -29,6 +30,7 @@ export default function ZipCode({zipCode, setZipCode, findZip, location, locatio
                 {!location && <span>searching...</span>}
                 {location && <span>{location}</span> }
             </div>
+            <HouseholdQuestions />
         </>
     )
 }

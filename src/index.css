@@ -17,12 +17,7 @@
   box-sizing: border-box;
 }
 
-html {
-  height: 100vh;
-}
-
 #root {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,24 +25,25 @@ html {
 }
 
 body {
-  height: 100%;
-  margin: 0;
+  margin: 35px 0;
   font-family: 'roboto-bold';
   background-color: #c5e1a5;
 }
 
 .quiz {
-  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .quiz-question {
-  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  padding: 25px;
+  background-color: rgba(27, 132, 44,.5);
+  border-radius: 25px;
+  margin: 25px 0;
 }
 
 .quiz-btn {
@@ -114,4 +110,14 @@ body {
   margin-top: 5px;
   font-size: 20px;
   font-family: 'arimo-regular'
+}
+
+.MuiSlider-colorPrimary {
+  color: darkgreen !important;
+}
+
+.question-text {
+  margin-bottom: 15px;
+  font-size: 25px;
+  font-family: 'arimo-regular';
 }
