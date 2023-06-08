@@ -2,6 +2,8 @@ import { useState } from 'react'
 import ZipCode from '../ZipCode/ZipCode';
 import Button from '@mui/material/Button';
 import TravelQuestions from '../QuizQuestions/TravelQuestions'
+import FoodQuestions from '../QuizQuestions/FoodQuestions';
+import StuffQuestions from '../QuizQuestions/StuffQuestions';
 import Result from '../Result/Result';
 
 export default function Quiz({setShowResult, resetApp}) {
@@ -13,7 +15,7 @@ export default function Quiz({setShowResult, resetApp}) {
     const [error, setError] = useState('')
     const [showNext, setShowNext] = useState(false)
 
-    const questionCount = 2
+    const questionCount = 4
 
     async function findZip() {
         setLocationLoading(1)
@@ -60,6 +62,12 @@ export default function Quiz({setShowResult, resetApp}) {
             }
             { (curQuestion === 2) &&
                 <TravelQuestions setShowNext={setShowNext}/>
+            }
+            { (curQuestion === 3) &&
+                <FoodQuestions setShowNext={setShowNext}/>
+            }
+            { (curQuestion === 4) &&
+                <StuffQuestions setShowNext={setShowNext}/>
             }
             </div>        
             {showNext &&
