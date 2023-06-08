@@ -5,12 +5,12 @@
   font-size: 45px;
 }
 
-.App button {
-  color: darkgreen;
-  background-color: white;
+.App-btn {
+  color: darkgreen !important;
+  background-color: white !important;
 }
 
-.App button:hover {
-  color: white;
-  background-color: darkgreen;
+.App-btn:hover {
+  color: white !important;
+  background-color: darkgreen !important;
 }
