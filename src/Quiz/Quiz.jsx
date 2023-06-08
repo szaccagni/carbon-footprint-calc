@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ZipCode from '../ZipCode/ZipCode';
 import Button from '@mui/material/Button';
+import TravelQuestions from '../QuizQuestions/TravelQuestions'
 import Result from '../Result/Result';
 
 export default function Quiz({setShowResult, resetApp}) {
@@ -47,6 +48,9 @@ export default function Quiz({setShowResult, resetApp}) {
             <div className='quiz-question'>
             { (curQuestion === 1) && 
                 <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading}/>
+            }
+            { (curQuestion === 2) &&
+                <TravelQuestions />
             }
             </div>        
             {location &&
