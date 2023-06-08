@@ -101,7 +101,7 @@ export default function TravelQuestions() {
             }
             <div style={{marginTop: '20px'}}>
                 <FormControl>
-                    <FormLabel id="demo-controlled-radio-buttons-group">Do fly regulary?</FormLabel>
+                    <FormLabel id="demo-controlled-radio-buttons-group">Do fly more than twice a year?</FormLabel>
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"

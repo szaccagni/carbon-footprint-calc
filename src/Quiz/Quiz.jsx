@@ -10,16 +10,22 @@ export default function Quiz({setShowResult, resetApp}) {
     const [locationLoading, setLocationLoading] = useState(0)
     const [location, setLocation] = useState('')
     const [zipCodeData, setZipCodeData] = useState('')
+    const [error, setError] = useState('')
 
     const questionCount = 2
 
     async function findZip() {
         setLocationLoading(1)
-        const endpoint = `https://carbon-footprint-data.vercel.app/api/footprints?zip=${zipCode}`
-        const response = await fetch(endpoint)
-        const zipData = await response.json()
-        setZipCodeData(zipData[0])
-        setLocation(`${zipData[0].city}, ${zipData[0].state}`)
+        try {
+            const endpoint = `https://carbon-footprint-data.vercel.app/api/footprints?zip=${zipCode}`
+            const response = await fetch(endpoint)
+            const zipData = await response.json()
+            setZipCodeData(zipData[0])
+            setLocation(`${zipData[0].city}, ${zipData[0].state}`)
+            setError('')
+        } catch (error) {
+            setError('could not find zip code, please try again')
+        }
     }
 
     function updateQuestion() {
@@ -47,7 +53,7 @@ export default function Quiz({setShowResult, resetApp}) {
         <div className='quiz'>
             <div className='quiz-question'>
             { (curQuestion === 1) && 
-                <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading}/>
+                <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading} error={error}/>
             }
             { (curQuestion === 2) &&
                 <TravelQuestions />

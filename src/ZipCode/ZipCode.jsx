@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import HouseholdQuestions from '../QuizQuestions/HouseholdQuestions';
 
-export default function ZipCode({zipCode, setZipCode, findZip, location, locationLoading}) {
+export default function ZipCode({zipCode, setZipCode, findZip, location, locationLoading, error}) {
     return (
         <>
             <div className='question-text'>Please input the zip code of your primary residence:</div>
@@ -27,8 +27,9 @@ export default function ZipCode({zipCode, setZipCode, findZip, location, locatio
                 </IconButton>
             </Paper>
             <div className='searching' style={{opacity: locationLoading}}>
-                {!location && <span>searching...</span>}
+                {!location && !error && <span>searching...</span>}
                 {location && <span>{location}</span> }
+                {error && <span className='error'>{error}</span>}
             </div>
             <HouseholdQuestions />
         </>

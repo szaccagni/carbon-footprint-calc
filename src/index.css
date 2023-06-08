@@ -126,3 +126,7 @@ body {
 .css-u4tvz2-MuiFormLabel-root.Mui-focused {
   color: rgba(0, 0, 0, 0.6) !important;
 }
+
+.error {
+  color: darkred !important;
+}
