@@ -80,6 +80,7 @@ body {
 }
 
 .result-small-top { 
+  padding: 15px 0;
   display: flex;
   background-color: darkgoldenrod;
   border-radius: 25px;
