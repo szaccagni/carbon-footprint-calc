@@ -9,8 +9,8 @@ export default function PieChart({zipCodeData}) {
         datasets: [
             {
                 data: [zipCodeData.transport, zipCodeData.housing, zipCodeData.food, zipCodeData.goods, zipCodeData.services],
-                backgroundColor: ['#2196F3', '#4CAF50', '#FF9800', '#9E9E9E', '#9C27B0'],
-                hoverBorderColor: ['#2196F3', '#4CAF50', '#FF9800', '#9E9E9E', '#9C27B0']
+                backgroundColor: ['#AED581', '#FFD54F', '#81D4FA', '#FFB74D', '#BDBDBD'],
+                hoverBorderColor: ['#AED581', '#FFD54F', '#81D4FA', '#FFB74D', '#BDBDBD']
             }
         ]
     }

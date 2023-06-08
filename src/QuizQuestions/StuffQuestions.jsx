@@ -40,7 +40,7 @@ export default function StuffQuestions({setShowNext}) {
                     </RadioGroup>
                 </FormControl>
             </div>
-            <div>
+            <div style={{marginTop : '20px'}}>
                 <FormControl>
                     <FormLabel id="demo-controlled-radio-buttons-group">Is it important to you to purchse goods and services from sustainable businesses ?</FormLabel>
                     <RadioGroup
