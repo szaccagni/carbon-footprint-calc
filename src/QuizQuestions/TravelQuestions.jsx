@@ -5,16 +5,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useState, useEffect } from 'react';
 
-export default function TravelQuestions({setShowNext}) {
-    const [totalQuestions, setTotalQuestions] = useState(3)
-    const [questionsAnswered, setQuestionsAnswered] = useState(0)
-    const [hasCar, setHasCar] = useState('')
-    const [carType, setCarType] = useState('')
-    const [carUse, setCarUse] = useState('')
-    const [takesPublic, setTakesPublic] = useState('')
-    const [publicUse, setPublicUse] = useState('')
-    const [flies, setFlies] = useState('')
-    const [flightUse, setFlightUse] = useState('')
+export default function TravelQuestions({setShowNext, answers, setAnswers}) {
+    const [totalQuestions, setTotalQuestions] = useState(getTotalQuestions())
+    const [questionsAnswered, setQuestionsAnswered] = useState(Object.values(answers.travelQs).filter(el => el !== '').length)
     
     useEffect(function() {
         if (totalQuestions === questionsAnswered) {
@@ -24,42 +17,55 @@ export default function TravelQuestions({setShowNext}) {
         }
     }, [totalQuestions, questionsAnswered, setShowNext])
 
-    function handleCar(e) {
-        if (hasCar === '') setQuestionsAnswered(questionsAnswered+1)
-        if (e.value === 'false') {
-            setHasCar(false)
-            countQuestions(false, takesPublic, flies)
+    function getTotalQuestions() {
+        const alreadyAnswered = Object.values(answers.travelQs).filter(el => el !== '').length
+        if (alreadyAnswered > 3) {
+            return alreadyAnswered
         } else {
-            setHasCar(true)
-            countQuestions(true, takesPublic, flies)
+            return 3
+        }
+    }
+
+    function handleCar(e) {
+        if (answers.travelQs.hasCar === '') setQuestionsAnswered(questionsAnswered+1)
+        const newAnswers = {...answers}
+        if (e.value === 'false') {
+            newAnswers.travelQs.hasCar = false
+            countQuestions(false, answers.travelQs.takesPublic, answers.travelQs.flies)
+        } else {
+            newAnswers.travelQs.hasCar = true
+            countQuestions(true, answers.travelQs.takesPublic, answers.travelQs.flies)
         } 
+        setAnswers(newAnswers)
     }
     
     function handleFlight(e) {
-        if (flies === '') setQuestionsAnswered(questionsAnswered+1)
+        if (answers.travelQs.flies === '') setQuestionsAnswered(questionsAnswered+1)
+        const newAnswers = {...answers}
         if (e.value === 'false') {
-            setFlies(false)
-            countQuestions(hasCar, takesPublic, false)
+            newAnswers.travelQs.flies = false
+            countQuestions(answers.travelQs.hasCar, answers.travelQs.takesPublic, false)
         } else {
-            setFlies(true)
-            countQuestions(hasCar, takesPublic, true)
+            newAnswers.travelQs.flies = true
+            countQuestions(answers.travelQs.hasCar, answers.travelQs.takesPublic, true)
         }
-        
+        setAnswers(newAnswers)
     }
 
     function handlePublic(e) {
-        if (takesPublic === '') setQuestionsAnswered(questionsAnswered+1)
+        if (answers.travelQs.takesPublic === '') setQuestionsAnswered(questionsAnswered+1)
+        const newAnswers = {...answers}
         if (e.value === 'false') {
-            setTakesPublic(false)
-            countQuestions(hasCar, false, flies)
+            newAnswers.travelQs.takesPublic = false
+            countQuestions(answers.travelQs.hasCar, false, answers.travelQs.flies)
         } else {
-            setTakesPublic(true)
-            countQuestions(hasCar, true, flies)
+            newAnswers.travelQs.takesPublic = true
+            countQuestions(answers.travelQs.hasCar, true, answers.travelQs.flies)
         }
+        setAnswers(newAnswers)
     }
 
     function countQuestions(car, trainBus, plane) {
-        console.log(car, trainBus, plane)
         let total = 0
         car ? total += 3 : total += 1
         trainBus ? total += 2 : total += 1
@@ -75,7 +81,7 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={hasCar}
+                        value={answers.travelQs.hasCar}
                         onChange={(e) => handleCar(e.target)}
                     >
                         <FormControlLabel value='true' control={<Radio color="success"/>} label="Yes" />
@@ -83,7 +89,7 @@ export default function TravelQuestions({setShowNext}) {
                     </RadioGroup>
                 </FormControl>
             </div>
-            {hasCar && 
+            {answers.travelQs.hasCar && 
             <>
             <div style={{margin : '20px 0'}}>
                 <FormControl>
@@ -91,10 +97,12 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={carType}
+                        value={answers.travelQs.carType}
                         onChange={(e) => {
-                            if (carType === '') setQuestionsAnswered(questionsAnswered+1)
-                            setCarType(e.target.value)
+                            if (answers.travelQs.carType === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.travelQs.carType = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value="electric" control={<Radio color="success"/>} label="Electric" />
@@ -109,10 +117,12 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={carUse}
+                        value={answers.travelQs.carUse}
                         onChange={(e) => {
-                            if (carUse === '') setQuestionsAnswered(questionsAnswered+1)
-                            setCarUse(e.target.value)
+                            if (answers.travelQs.carUse === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.travelQs.carUse = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every Day" />
@@ -129,7 +139,7 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={takesPublic}
+                        value={answers.travelQs.takesPublic}
                         onChange={(e) => handlePublic(e.target)}
                     >
                         <FormControlLabel value='true' control={<Radio color="success"/>} label="Yes" />
@@ -137,7 +147,7 @@ export default function TravelQuestions({setShowNext}) {
                     </RadioGroup>
                 </FormControl>
             </div>
-            {takesPublic &&
+            {answers.travelQs.takesPublic &&
             <>
             <div style={{marginTop: '20px'}}>
                 <FormControl>
@@ -145,10 +155,12 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={publicUse}
+                        value={answers.travelQs.publicUse}
                         onChange={(e) => {
-                            if (publicUse === '') setQuestionsAnswered(questionsAnswered+1)
-                            setPublicUse(e.target.value)
+                            if (answers.travelQs.publicUse === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.travelQs.publicUse = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every Day" />
@@ -165,7 +177,7 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={flies}
+                        value={answers.travelQs.flies}
                         onChange={(e) => handleFlight(e.target)}
                     >
                         <FormControlLabel value='true' control={<Radio color="success"/>} label="Yes" />
@@ -173,7 +185,7 @@ export default function TravelQuestions({setShowNext}) {
                     </RadioGroup>
                 </FormControl>
             </div>
-            {flies &&
+            {answers.travelQs.flies &&
             <>
             <div style={{marginTop: '20px'}}>
                 <FormControl>
@@ -181,10 +193,12 @@ export default function TravelQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={flightUse}
+                        value={answers.travelQs.flightUse}
                         onChange={(e) => {
-                            if (flightUse === '') setQuestionsAnswered(questionsAnswered+1)
-                            setFlightUse(e.target.value)
+                            if (answers.travelQs.flightUse === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.travelQs.flightUse = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value='monthly' control={<Radio color="success"/>} label="A few times a month" />

@@ -5,11 +5,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useState, useEffect } from 'react';
 
-export default function FoodQuestions({setShowNext}) {
-    const [diet, setDiet] = useState('')
-    const [foodSource, setFoodsource] =useState('')
-    const [questionsAnswered, setQuestionsAnswered] = useState(0)
-    
+export default function FoodQuestions({setShowNext, answers, setAnswers}) {
+    const [questionsAnswered, setQuestionsAnswered] = useState(Object.values(answers.foodQs).filter(el => el !== '').length)
+
     const totalQuestions = 2
 
     useEffect(function() {
@@ -28,10 +26,12 @@ export default function FoodQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={diet}
+                        value={answers.foodQs.diet}
                         onChange={(e) => {
-                            if (diet === '') setQuestionsAnswered(questionsAnswered+1)
-                            setDiet(e.target.value)
+                            if (answers.foodQs.diet === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.foodQs.diet = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value='Omnivore, meat often' control={<Radio color="success"/>} label="I eat whatever I want, and often eat meat" />
@@ -49,10 +49,12 @@ export default function FoodQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={foodSource}
+                        value={answers.foodQs.foodSource}
                         onChange={(e) => {
-                            if (foodSource === '') setQuestionsAnswered(questionsAnswered+1)
-                            setFoodsource(e.target.value)
+                            if (answers.foodQs.foodSource === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.foodQs.foodSource = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value='often' control={<Radio color="success"/>} label="Often" />

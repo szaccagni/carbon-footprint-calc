@@ -1,6 +1,6 @@
 import Slider from '@mui/material/Slider'
 
-export default function QuizQuestions() {
+export default function QuizQuestions({answers, setAnswers}) {
 
     const marksPeople = [
         {
@@ -76,36 +76,40 @@ export default function QuizQuestions() {
         },
     ]
 
-    function valuetext(value) {
-        return value;
-    }
-
-
     return (
         <div>
             <div style={{width: '60%', marginTop: '20px', marginBottom: '20px'}}>
                 <div className='question-text'>How many people live in your household?</div>
                 <Slider
                     aria-label="household members"
-                    defaultValue={1}
+                    defaultValue={answers.houseQs.members}
                     step={1}
                     marks={marksPeople}
                     min={1}
                     max={5}
                     color="primary"
+                    onChange={(e) => {
+                        const newAnswers = {...answers}
+                        newAnswers.houseQs.members = e.target.value
+                        setAnswers(newAnswers)
+                    }}
                 />
             </div>
             <div style={{width: '60%', marginBottom: '20px'}}>
                 <div className='question-text'>What is your gross annual household income?</div>
                 <Slider
                     aria-label="household income"
-                    getAriaValueText={valuetext}
-                    defaultValue={10000}
+                    defaultValue={answers.houseQs.income}
                     marks={marksIncome}
                     step={10000}
                     min={10000}
                     max={120000}
                     color="primary"
+                    onChange={(e) => {
+                        const newAnswers = {...answers}
+                        newAnswers.houseQs.income = e.target.value
+                        setAnswers(newAnswers)
+                    }}
                 />
             </div>
         </div>

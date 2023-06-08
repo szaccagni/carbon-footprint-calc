@@ -14,6 +14,31 @@ export default function Quiz({setShowResult, resetApp}) {
     const [zipCodeData, setZipCodeData] = useState('')
     const [error, setError] = useState('')
     const [showNext, setShowNext] = useState(false)
+    const [showBack, setShowBack] = useState(false)
+    const [nextText, setNextText] = useState('Next')
+    const [answers, setAnswers] = useState({
+        houseQs : {
+            members: '',
+            income: ''
+        },
+        travelQs : {
+            hasCar: '',
+            carType: '',
+            carUse: '',
+            takesPublic: '',
+            publicUse: '',
+            flies: '',
+            flightUse: ''
+        }, 
+        foodQs : {
+            diet: '',
+            foodSource: '',
+        },
+        stuffQs : {
+            recyleHabit: '',
+            sustainableHabit: '',
+        }
+    })
 
     const questionCount = 4
 
@@ -32,6 +57,15 @@ export default function Quiz({setShowResult, resetApp}) {
         }
     }
 
+    function goBack() {
+        const nextQuestion = curQuestion - 1
+        if (nextQuestion > 0) {
+            setCurQuestion(nextQuestion)
+            setShowNext(true)
+            setNextText('Next')
+        }
+    }
+
     function updateQuestion() {
         const nextQuestion = curQuestion + 1
         if (nextQuestion > questionCount) {
@@ -40,6 +74,12 @@ export default function Quiz({setShowResult, resetApp}) {
         } else {
             setCurQuestion(nextQuestion)
             setShowNext(false)
+            setShowBack(true)
+            if (nextQuestion === questionCount) {
+                setNextText('Get Results!')
+            } else {
+                setNextText('Next')
+            }
         }
     }
 
@@ -49,6 +89,31 @@ export default function Quiz({setShowResult, resetApp}) {
         setLocationLoading(0)
         setLocation('')
         setZipCodeData('')
+        setShowNext(false)
+        setNextText('Next')
+        setAnswers({
+            houseQs : {
+                members: 1,
+                income: ''
+            },
+            travelQs : {
+                hasCar: '',
+                carType: '',
+                carUse: '',
+                takesPublic: '',
+                publicUse: '',
+                flies: '',
+                flightUse: ''
+            }, 
+            foodQs : {
+                diet: '',
+                foodSource: '',
+            },
+            stuffQs : {
+                recyleHabit: '',
+                sustainableHabit: '',
+            }
+        })
     }
 
     return (
@@ -58,26 +123,45 @@ export default function Quiz({setShowResult, resetApp}) {
         <div className='quiz'>
             <div className='quiz-question'>
             { (curQuestion === 1) && 
-                <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading} error={error}/>
+                <ZipCode zipCode={zipCode} setZipCode={setZipCode} findZip={findZip} location={location} locationLoading={locationLoading} error={error} answers={answers} setAnswers={setAnswers}/>
             }
             { (curQuestion === 2) &&
-                <TravelQuestions setShowNext={setShowNext}/>
+                <TravelQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers}/>
             }
             { (curQuestion === 3) &&
-                <FoodQuestions setShowNext={setShowNext}/>
+                <FoodQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers}/>
             }
             { (curQuestion === 4) &&
-                <StuffQuestions setShowNext={setShowNext}/>
+                <StuffQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers}/>
             }
-            </div>        
-            {showNext &&
+            </div>
+            <div style={{display: 'flex'}}>
+                {showBack &&
+                    <Button
+                        className='quiz-btn App-btn'
+                        onClick={goBack}
+                        style={{marginRight: '10px'}}
+                    >
+                        Back
+                    </Button> 
+                }
+                {showNext ? 
                 <Button
                     className='quiz-btn App-btn'
                     onClick={updateQuestion}
                 >
-                    Next
+                    {nextText}
                 </Button>
-            }
+                :
+                <Button
+                    className='quiz-btn App-btn-disabled'
+                    onClick={updateQuestion}
+                    disabled
+                >
+                    {nextText}
+                </Button>
+                }        
+            </div>
         </div>
         }
         

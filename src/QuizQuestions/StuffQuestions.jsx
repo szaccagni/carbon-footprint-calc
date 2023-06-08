@@ -5,10 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useState, useEffect } from 'react';
 
-export default function StuffQuestions({setShowNext}) {
-    const [recyleHabit, setRecyleHabit] = useState('')
-    const [sustainableHabit, setSustainableHabit] = useState('')
-    const [questionsAnswered, setQuestionsAnswered] = useState(0)
+export default function StuffQuestions({setShowNext, answers, setAnswers}) {
+    const [questionsAnswered, setQuestionsAnswered] = useState(Object.values(answers.stuffQs).filter(el => el !== '').length)
 
     const totalQuestions = 2
 
@@ -28,10 +26,12 @@ export default function StuffQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={recyleHabit}
+                        value={answers.stuffQs.recyleHabit}
                         onChange={(e) => {
-                            if (recyleHabit === '') setQuestionsAnswered(questionsAnswered+1)
-                            setRecyleHabit(e.target.value)
+                            if (answers.stuffQs.recyleHabit === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.stuffQs.recyleHabit = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value='often' control={<Radio color="success"/>} label="Often" />
@@ -46,10 +46,12 @@ export default function StuffQuestions({setShowNext}) {
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"
-                        value={sustainableHabit}
+                        value={answers.stuffQs.sustainableHabit}
                         onChange={(e) => {
-                            if (sustainableHabit === '') setQuestionsAnswered(questionsAnswered+1)
-                            setSustainableHabit(e.target.value)
+                            if (answers.stuffQs.sustainableHabit === '') setQuestionsAnswered(questionsAnswered+1)
+                            const newAnswers = {...answers}
+                            newAnswers.stuffQs.sustainableHabit = e.target.value
+                            setAnswers(newAnswers)
                         }}
                     >
                         <FormControlLabel value='extremely' control={<Radio color="success"/>} label="Extremely" />
