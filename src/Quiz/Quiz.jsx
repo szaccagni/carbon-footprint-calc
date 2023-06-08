@@ -3,12 +3,12 @@ import ZipCode from '../ZipCode/ZipCode';
 import Button from '@mui/material/Button';
 import Result from '../Result/Result';
 
-export default function Quiz({setShowResult}) {
+export default function Quiz({setShowResult, resetApp}) {
     const [curQuestion, setCurQuestion] = useState(1)
     const [zipCode, setZipCode] = useState('')
     const [locationLoading, setLocationLoading] = useState(0)
     const [location, setLocation] = useState('')
-    const [zipCodeData, setZipCodeData] = useState({})
+    const [zipCodeData, setZipCodeData] = useState('')
 
     const questionCount = 2
 
@@ -29,6 +29,14 @@ export default function Quiz({setShowResult}) {
         } else {
             setCurQuestion(nextQuestion)
         }
+    }
+
+    function resetQuiz() {
+        setCurQuestion(1)
+        setZipCode('')
+        setLocationLoading(0)
+        setLocation('')
+        setZipCodeData('')
     }
 
     return (
@@ -53,7 +61,7 @@ export default function Quiz({setShowResult}) {
         }
         
         {curQuestion === 0 &&
-            <Result zipCodeData={zipCodeData}/>
+            <Result zipCodeData={zipCodeData} resetQuiz={resetQuiz}/>
         } 
         </>
         

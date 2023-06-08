@@ -53,10 +53,11 @@ body {
 .searching {
   color: darkgreen;
   font-size: 25px;
+  margin: 10px 0;
 }
 
 .quiz-result {
-  height: 90%;
+  height: 85vh;
   display: grid;
   column-gap: 15px;
   grid-template-columns: 40% 58%;

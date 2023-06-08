@@ -7,6 +7,11 @@ export default function App() {
   const [showQuiz, setShowQuiz] = useState(false)
   const [showResult, setShowResult] = useState(false)
 
+  function resetApp() {
+    setShowQuiz(false)
+    setShowResult(false)
+  }
+
   return (
     <div className="App">
       <div>{!showResult &&<span>FIND</span>} YOUR FOOTPRINT</div>
@@ -20,7 +25,7 @@ export default function App() {
           >take the quiz</Button>
         </>
         : 
-        <Quiz setShowResult={setShowResult}/>
+        <Quiz setShowResult={setShowResult} resetApp={resetApp}/>
       }
     </div>
   );
