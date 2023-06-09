@@ -5,7 +5,7 @@ export default function Result({zipCodeData, resetQuiz, results, recommendations
     console.log(results)
     const usAvg = 49.75
     const backgroundColorResult = results.total > usAvg ? 'darkred' : 'darkgreen'
-    const resultsSummary = `Your footprint ${results.total > usAvg ? 'higher' : 'lower'} than the United States average${results.total > usAvg ? '' : ', Nice Job!'}`
+    const resultsSummary = `Your footprint is ${results.total > usAvg ? 'higher' : 'lower'} than the United States average${results.total > usAvg ? '' : ', Nice Job!'}`
 
     return (
         <div className='result-page'>
@@ -16,7 +16,7 @@ export default function Result({zipCodeData, resetQuiz, results, recommendations
                         <div style={{fontSize: '25px'}}>tons CO2eq/year</div>
                     </div>
                     <div style={{ height: '40%', display: 'flex', alignItems: 'flex-end'}}>
-                        <div className='result-small-text' style={{color: 'grey'}}>{resultsSummary}</div>
+                        <div className='result-small-text' style={{color: 'white'}}>{resultsSummary}</div>
                     </div>
                 </div>
                 <div className="result-small-top">
