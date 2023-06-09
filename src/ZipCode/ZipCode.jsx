@@ -4,25 +4,43 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import HouseholdQuestions from '../QuizQuestions/HouseholdQuestions';
 
-export default function ZipCode({zipCode, setZipCode, findZip, location, locationLoading, error, answers, setAnswers, ajustments, setAdjustments, zipCodeData}) {
+export default function ZipCode({zipCode, setZipCode, findZip, location, locationLoading, error, answers, setAnswers}) {
+    
+    function handleKeyDown(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault()
+            findZip()
+        }
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        findZip()
+    }
+
+    function handleChange(e) {
+        setZipCode(e.target.value);
+        if (e.target.value.length === 5) {
+          findZip(e.target.value);
+        }
+    }
+
     return (
         <>
             <div className='question-text'>Please input the zip code of your primary residence:</div>
             <Paper
                 component="form"
                 style={{ padding: '4px', display: 'flex', alignItems: 'center', width: '30%' }}
+                onSubmit={handleSubmit}
             >
                 <InputBase
                     value={zipCode} 
-                    onChange={e => setZipCode(e.target.value)}
+                    onChange={handleChange}
                     sx={{ ml: 1, flex: 1 }}
+                    onKeyDown={handleKeyDown}
                     placeholder="Zip Code"
                 />
-                <IconButton 
-                    onClick={findZip}
-                    type="button" 
-                    style={{ padding: '10px' }} 
-                >
+                <IconButton type="submit" style={{ padding: '10px' }}>
                     <SearchIcon />
                 </IconButton>
             </Paper>
@@ -31,7 +49,7 @@ export default function ZipCode({zipCode, setZipCode, findZip, location, locatio
                 {location && <span>{location}</span> }
                 {error && <span className='error'>{error}</span>}
             </div>
-            <HouseholdQuestions answers={answers} setAnswers={setAnswers} ajustments={ajustments} setAdjustments={setAdjustments} zipCodeData={zipCodeData}/>
+            <HouseholdQuestions answers={answers} setAnswers={setAnswers}/>
         </>
     )
 }

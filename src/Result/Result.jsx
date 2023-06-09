@@ -2,7 +2,6 @@ import PieChart from '../PieChart/PieChart'
 import Button from '@mui/material/Button';
 
 export default function Result({zipCodeData, resetQuiz, results, recommendations}) {
-    console.log(results)
     const usAvg = 49.75
     const backgroundColorResult = results.total > usAvg ? 'darkred' : 'darkgreen'
     const resultsSummary = `Your footprint is ${results.total > usAvg ? 'higher' : 'lower'} than the United States average${results.total > usAvg ? '' : ', Nice Job!'}`
@@ -23,6 +22,7 @@ export default function Result({zipCodeData, resetQuiz, results, recommendations
                     <PieChart results={results}/>
                 </div>
                 <div className="result-small-bottom">
+                    thanks for taking our quiz, learn more about how you can reduce your footprint below
                 </div>
             </div>
             <div className="result-large-bottom">         

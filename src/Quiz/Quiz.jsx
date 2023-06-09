@@ -89,10 +89,12 @@ export default function Quiz({setShowResult, resetApp}) {
         setAdjustments(newAdjustments)
     }, [answers])
 
-    async function findZip() {
+    async function findZip(zip=zipCode) {
+        const intZip = parseInt(zip)
+        const cleanedZip = intZip.toString()
         setLocationLoading(1)
         try {
-            const endpoint = `https://carbon-footprint-data.vercel.app/api/footprints?zip=${zipCode}`
+            const endpoint = `https://carbon-footprint-data.vercel.app/api/footprints?zip=${cleanedZip}`
             const response = await fetch(endpoint)
             const zipData = await response.json()
             setZipCodeData(zipData[0])
@@ -100,6 +102,8 @@ export default function Quiz({setShowResult, resetApp}) {
             setError('')
             setShowNext(true)
         } catch (error) {
+            setShowNext(false)
+            setLocation('')
             setError('could not find zip code, please try again')
         }
     }

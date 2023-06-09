@@ -85,6 +85,8 @@ body {
 }
 
 .result-small-bottom {
+  padding: 25px;
+  font-size: 30px;
   background-color: lightskyblue;
   border-radius: 25px;
   margin: 0 0 15px 0;
