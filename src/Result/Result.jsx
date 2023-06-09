@@ -22,7 +22,7 @@ export default function Result({zipCodeData, resetQuiz, results, recommendations
                     <PieChart results={results}/>
                 </div>
                 <div className="result-small-bottom">
-                    thanks for taking our quiz, learn more about how you can reduce your footprint below
+                    Thanks for taking our quiz, learn more about how you can reduce your footprint below!
                 </div>
             </div>
             <div className="result-large-bottom">         

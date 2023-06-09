@@ -160,7 +160,7 @@ body {
 
 .home-text {
   color: goldenrod;
-  font-family: 'arimo-regular';
+  /* font-family: 'arimo-regular'; */
   font-size: 30px;
   margin: 45px 0 25px 0;
 }

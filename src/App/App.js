@@ -18,7 +18,7 @@ export default function App() {
       {
         !showQuiz ?
         <>
-          <div className='home-text'>Time is ticking and it's essential that we address the causes of global warming. Fast. And as they say: you can't manage what you don't measure. Find out your household's carbon footprint with this short quiz.</div>
+          <div className='home-text card'>Time is ticking and it's essential that we address the causes of global warming. Fast. And as they say: you can't manage what you don't measure. Find out your household's carbon footprint with this short quiz.</div>
           <Button
               className='App-btn'
               onClick={() => setShowQuiz(true)}
