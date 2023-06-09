@@ -42,7 +42,7 @@ export default function StuffQuestions({setShowNext, answers, setAnswers}) {
             </div>
             <div style={{marginTop : '20px'}}>
                 <FormControl>
-                    <FormLabel id="demo-controlled-radio-buttons-group">Is it important to you to purchse goods and services from sustainable businesses ?</FormLabel>
+                    <FormLabel id="demo-controlled-radio-buttons-group">Is it important to you to purchase goods and services from sustainable businesses ?</FormLabel>
                     <RadioGroup
                         aria-labelledby="demo-controlled-radio-buttons-group"
                         name="controlled-radio-buttons-group"

@@ -62,13 +62,17 @@ export default function Quiz({setShowResult, resetApp}) {
                 newAdjustments.householdAdjustment = 1.1
             } else if ((answers.houseQs.income < zipCodeData.incomePerHousehold) && (answers.houseQs.members < zipCodeData.personsPerHousehol)) {
                 newAdjustments.householdAdjustment = .9
+            } else {
+                newAdjustments.householdAdjustment = 1
             }
 
             // travel adjustment calc
             if (answers.travelQs.flightUse === 'monthly' || answers.travelQs.carType === 'gas' || answers.travelQs.carUse === 'every day') {
                 newAdjustments.travelAdjustment = 1.1
-            } else if (answers.flies === false || answers.travelQs.carType !== 'gas' || answers.travelQs.carUse !== 'every day' || (answers.travelQs.carUse !== 'every day' && answers.travelQs.publicUse === 'every day')) {
+            } else if (answers.flies === false || answers.travelQs.carUse === 'few times monthly' || (answers.travelQs.carUse !== 'every day' && answers.travelQs.publicUse === 'every day')) {
                 newAdjustments.travelAdjustment = .9
+            } else {
+                newAdjustments.travelAdjustment = 1
             }
 
             // food adjustment calc
@@ -76,6 +80,8 @@ export default function Quiz({setShowResult, resetApp}) {
                 newAdjustments.foodAdjustment = .9
             } else if (answers.foodQs.diet !== 'Omnivore, meat often' &&  answers.foodQs.foodSource === 'never') {
                 newAdjustments.foodAdjustment = 1.1
+            } else {
+                newAdjustments.foodAdjustment = 1
             }
 
             // stuff adjustment calc 
@@ -136,14 +142,13 @@ export default function Quiz({setShowResult, resetApp}) {
     }
 
     function calculateResults() {
-        const adjustment = adjustments.foodAdjustment * adjustments.householdAdjustment * adjustments.stuffAdjustment * adjustments.travelAdjustment
         const newResults = {
             // adjust for members & income indicated 
-            food : zipCodeData.food * adjustment, 
-            goods : zipCodeData.goods * adjustment, 
-            housing : zipCodeData.housing * adjustment, 
-            services : zipCodeData.services * adjustment,
-            transport : zipCodeData.transport * adjustment, 
+            food : zipCodeData.food * adjustments.foodAdjustment, 
+            goods : zipCodeData.goods * adjustments.stuffAdjustment, 
+            housing : zipCodeData.housing * adjustments.householdAdjustment, 
+            services : zipCodeData.services * adjustments.stuffAdjustment,
+            transport : zipCodeData.transport *  adjustments.travelAdjustment, 
         }
         newResults.total = (newResults.food + newResults.goods + newResults.housing + newResults.services + newResults.transport).toFixed(2)
         setResults(newResults)
