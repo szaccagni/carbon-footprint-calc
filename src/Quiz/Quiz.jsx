@@ -143,7 +143,6 @@ export default function Quiz({setShowResult, resetApp}) {
 
     function calculateResults() {
         const newResults = {
-            // adjust for members & income indicated 
             food : zipCodeData.food * adjustments.foodAdjustment, 
             goods : zipCodeData.goods * adjustments.stuffAdjustment, 
             housing : zipCodeData.housing * adjustments.householdAdjustment, 
