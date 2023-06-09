@@ -82,7 +82,7 @@ export default function QuizQuestions({answers, setAnswers}) {
                 <div className='question-text'>How many people live in your household?</div>
                 <Slider
                     aria-label="household members"
-                    defaultValue={answers.houseQs.members}
+                    value={answers.houseQs.members}
                     step={1}
                     marks={marksPeople}
                     min={1}
@@ -99,7 +99,7 @@ export default function QuizQuestions({answers, setAnswers}) {
                 <div className='question-text'>What is your gross annual household income?</div>
                 <Slider
                     aria-label="household income"
-                    defaultValue={answers.houseQs.income}
+                    value={parseInt(answers.houseQs.income)}
                     marks={marksIncome}
                     step={10000}
                     min={10000}

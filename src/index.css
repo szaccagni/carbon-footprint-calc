@@ -130,3 +130,9 @@ body {
 .error {
   color: darkred !important;
 }
+
+.recommendation {
+  color: goldenrod;
+  list-style-type: none;
+  margin: 15px 0;
+}

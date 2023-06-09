@@ -3,12 +3,12 @@ import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function PieChart({zipCodeData}) {
+export default function PieChart({results}) {
     const chartData = {
         labels: ['transportation', 'housing', 'food', 'goods', 'services'],
         datasets: [
             {
-                data: [zipCodeData.transport, zipCodeData.housing, zipCodeData.food, zipCodeData.goods, zipCodeData.services],
+                data: [results.transport, results.housing, results.food, results.goods, results.services],
                 backgroundColor: ['#AED581', '#FFD54F', '#81D4FA', '#FFB74D', '#BDBDBD'],
                 hoverBorderColor: ['#AED581', '#FFD54F', '#81D4FA', '#FFB74D', '#BDBDBD']
             }

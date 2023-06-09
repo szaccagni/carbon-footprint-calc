@@ -125,7 +125,7 @@ export default function TravelQuestions({setShowNext, answers, setAnswers}) {
                             setAnswers(newAnswers)
                         }}
                     >
-                        <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every Day" />
+                        <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every day" />
                         <FormControlLabel value="few times weekly" control={<Radio color="success"/>} label="A few times a week" />
                         <FormControlLabel value="few times monthly" control={<Radio color="success" />} label="A few times a month" />
                     </RadioGroup>
@@ -163,7 +163,7 @@ export default function TravelQuestions({setShowNext, answers, setAnswers}) {
                             setAnswers(newAnswers)
                         }}
                     >
-                        <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every Day" />
+                        <FormControlLabel value="every day" control={<Radio color="success"/>} label="Every day" />
                         <FormControlLabel value="few times weekly" control={<Radio color="success"/>} label="A few times a week" />
                         <FormControlLabel value="few times monthly" control={<Radio color="success" />} label="A few times a month" />
                     </RadioGroup>

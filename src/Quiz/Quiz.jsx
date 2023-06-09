@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ZipCode from '../ZipCode/ZipCode';
 import Button from '@mui/material/Button';
 import TravelQuestions from '../QuizQuestions/TravelQuestions'
@@ -16,10 +16,22 @@ export default function Quiz({setShowResult, resetApp}) {
     const [showNext, setShowNext] = useState(false)
     const [showBack, setShowBack] = useState(false)
     const [nextText, setNextText] = useState('Next')
+    const [results, setResults] = useState('')
+    const [recommendations, setRecommendations] = useState({
+        travelRecommendation : [],
+        stuffRecommendation : [],
+        foodRecommendation : []
+    })
+    const [adjustments, setAdjustments] = useState({
+        travelAdjustment: 1,
+        householdAdjustment: 1,
+        stuffAdjustment: 1,
+        foodAdjustment: 1
+    })
     const [answers, setAnswers] = useState({
         houseQs : {
-            members: '',
-            income: ''
+            members: 1,
+            income: 10000,
         },
         travelQs : {
             hasCar: '',
@@ -41,6 +53,41 @@ export default function Quiz({setShowResult, resetApp}) {
     })
 
     const questionCount = 4
+
+    useEffect(function() {
+        const newAdjustments = {...adjustments}
+        if (zipCodeData !== '') {
+            // housing adjustment calc
+            if ((answers.houseQs.income > zipCodeData.incomePerHousehold) && (answers.houseQs.members > zipCodeData.personsPerHousehol)) {
+                newAdjustments.householdAdjustment = 1.1
+            } else if ((answers.houseQs.income < zipCodeData.incomePerHousehold) && (answers.houseQs.members < zipCodeData.personsPerHousehol)) {
+                newAdjustments.householdAdjustment = .9
+            }
+
+            // travel adjustment calc
+            if (answers.travelQs.flightUse === 'monthly' || answers.travelQs.carType === 'gas' || answers.travelQs.carUse === 'every day') {
+                newAdjustments.travelAdjustment = 1.1
+            } else if (answers.flies === false || answers.travelQs.carType !== 'gas' || answers.travelQs.carUse !== 'every day' || (answers.travelQs.carUse !== 'every day' && answers.travelQs.publicUse === 'every day')) {
+                newAdjustments.travelAdjustment = .9
+            }
+
+            // food adjustment calc
+            if ((answers.foodQs.diet !== 'Omnivore, meat often' && answers.foodQs.diet !== 'Omnivore, meat sometimes') || answers.foodQs.foodSource === 'often') {
+                newAdjustments.foodAdjustment = .9
+            } else if (answers.foodQs.diet !== 'Omnivore, meat often' &&  answers.foodQs.foodSource === 'never') {
+                newAdjustments.foodAdjustment = 1.1
+            }
+
+            // stuff adjustment calc 
+            if (answers.stuffQs.recyleHabit === 'never' || answers.stuffQs.sustainableHabit === 'negative') {
+                newAdjustments.stuffAdjustment = 1.3
+            } else if (answers.stuffQs.sustainableHabit === 'extremely' || answers.stuffQs.recyleHabit === 'often') {
+                newAdjustments.stuffAdjustment = .9
+            }
+        }
+        
+        setAdjustments(newAdjustments)
+    }, [answers])
 
     async function findZip() {
         setLocationLoading(1)
@@ -69,6 +116,7 @@ export default function Quiz({setShowResult, resetApp}) {
     function updateQuestion() {
         const nextQuestion = curQuestion + 1
         if (nextQuestion > questionCount) {
+            calculateResults()
             setShowResult(true)
             setCurQuestion(0)
         } else {
@@ -83,6 +131,35 @@ export default function Quiz({setShowResult, resetApp}) {
         }
     }
 
+    function calculateResults() {
+        const adjustment = adjustments.foodAdjustment * adjustments.householdAdjustment * adjustments.stuffAdjustment * adjustments.travelAdjustment
+        const newResults = {
+            // adjust for members & income indicated 
+            food : zipCodeData.food * adjustment, 
+            goods : zipCodeData.goods * adjustment, 
+            housing : zipCodeData.housing * adjustment, 
+            services : zipCodeData.services * adjustment,
+            transport : zipCodeData.transport * adjustment, 
+        }
+        newResults.total = (newResults.food + newResults.goods + newResults.housing + newResults.services + newResults.transport).toFixed(2)
+        setResults(newResults)
+        // travel recommendations 
+        const newRecommendations = {...recommendations}
+        if (answers.travelQs.flightUse === 'monthly') newRecommendations.travelRecommendation.push('Flights produce a large carbon footprint, maybe try to cut back on how ofter you fly')
+        if (answers.travelQs.publicUse === 'few times monthly' || !answers.travelQs.takesPublic) newRecommendations.travelRecommendation.push('Using public transportation more often can be a great way to reduce your footprint')
+        if (answers.travelQs.carType === 'gas') newRecommendations.travelRecommendation.push('Perhaps consider purchaing a hybrid or electric car when it come times for a new one')
+        if (answers.travelQs.hasCar)  newRecommendations.travelRecommendation.push('Carpool as often as you can and always take the most efficient routes!')
+        if (answers.travelQs.takesPublic) newRecommendations.travelRecommendation.push('If you\'re not already doing so, think about incorporating biking into your travel routine')
+
+        // stuff recommendations 
+        if (answers.stuffQs.recyleHabit !== 'often') newRecommendations.stuffRecommendation.push('Try to recyle more often! Always avoid single use plastic when you can!')
+        if (answers.stuffQs.sustainableHabit !== 'extremely') newRecommendations.stuffRecommendation.push('Be conscience about the businesses you frequent. Shop small when you can and avoid businesses that do not prioritze sustainable practices.')
+
+        // food recommendations 
+        if (answers.foodQs.diet === 'Omnivore, meat often' || answers.foodQs.diet === 'Omnivore, meat sometimes' || answers.foodQs.foodSource !== 'often') newRecommendations.foodRecommendation.push('The meat industry, especially in the United States is a heavy offender of green house gas omittance. Try to opt for sustainably farmed meat products when you are shopping!')
+        setRecommendations(newRecommendations)
+    }
+
     function resetQuiz() {
         setCurQuestion(1)
         setZipCode('')
@@ -91,10 +168,15 @@ export default function Quiz({setShowResult, resetApp}) {
         setZipCodeData('')
         setShowNext(false)
         setNextText('Next')
+        setRecommendations({
+            travelRecommendation : [],
+            stuffRecommendation : [],
+            foodRecommendation : []
+        })
         setAnswers({
             houseQs : {
                 members: 1,
-                income: ''
+                income: 10000,
             },
             travelQs : {
                 hasCar: '',
@@ -129,7 +211,7 @@ export default function Quiz({setShowResult, resetApp}) {
                 <TravelQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers}/>
             }
             { (curQuestion === 3) &&
-                <FoodQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers}/>
+                <FoodQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers} />
             }
             { (curQuestion === 4) &&
                 <StuffQuestions setShowNext={setShowNext} answers={answers} setAnswers={setAnswers}/>
@@ -166,7 +248,7 @@ export default function Quiz({setShowResult, resetApp}) {
         }
         
         {curQuestion === 0 &&
-            <Result zipCodeData={zipCodeData} resetQuiz={resetQuiz}/>
+            <Result zipCodeData={zipCodeData} resetQuiz={resetQuiz} results={results} recommendations={recommendations}/>
         } 
         </>
         
