@@ -30,7 +30,7 @@ export default function ZipCode({zipCode, setZipCode, findZip, location, locatio
             <div className='question-text'>Please input the zip code of your primary residence:</div>
             <Paper
                 component="form"
-                style={{ padding: '4px', display: 'flex', alignItems: 'center', width: '30%' }}
+                className='zip-code'
                 onSubmit={handleSubmit}
             >
                 <InputBase

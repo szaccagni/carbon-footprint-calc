@@ -78,7 +78,7 @@ export default function QuizQuestions({answers, setAnswers}) {
 
     return (
         <div>
-            <div style={{width: '60%', marginTop: '20px', marginBottom: '20px'}}>
+            <div style={{marginTop: '20px', marginBottom: '20px'}} className='slider'>
                 <div className='question-text'>How many people live in your household?</div>
                 <Slider
                     aria-label="household members"
@@ -95,7 +95,7 @@ export default function QuizQuestions({answers, setAnswers}) {
                     }}
                 />
             </div>
-            <div style={{width: '60%', marginBottom: '20px'}}>
+            <div style={{ marginBottom: '20px'}} className='slider'>
                 <div className='question-text'>What is your gross annual household income?</div>
                 <Slider
                     aria-label="household income"

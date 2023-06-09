@@ -98,6 +98,10 @@ body {
   border-radius: 25px;
 }
 
+.result-large-bottom ul {
+  padding: 0;
+}
+
 .pie-chart-container {
   width: 80%;
   margin: 5px auto
@@ -141,4 +145,31 @@ body {
 
 .css-1vovazs.Mui-focused {
   color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.zip-code {
+  padding: 4px; 
+  display: flex;
+  align-items: center; 
+  width: 30%;
+}
+
+.slider {
+  width: 60%;
+}
+
+@media screen and (max-width: 550px) {
+  .quiz-result {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .zip-code {
+    width: 90%;
+  }
+
+  .slider {
+    width: 100%;
+  }
 }

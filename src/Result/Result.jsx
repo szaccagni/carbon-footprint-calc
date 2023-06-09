@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 export default function Result({zipCodeData, resetQuiz, results, recommendations}) {
     const usAvg = 49.75
     const backgroundColorResult = results.total > usAvg ? 'darkred' : 'darkgreen'
-    const resultsSummary = `Your footprint is ${results.total > usAvg ? 'higher' : 'lower'} than the United States average${results.total > usAvg ? '' : ', Nice Job!'}`
+    const resultsSummary = `Your footprint is ${results.total > usAvg ? 'higher' : 'lower'} than the United States average${results.total > usAvg ? '' : ', nice job!'}`
 
     return (
         <div className='result-page'>
