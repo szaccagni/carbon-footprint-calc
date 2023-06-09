@@ -138,3 +138,7 @@ body {
   list-style-type: none;
   margin: 15px 0;
 }
+
+.css-1vovazs.Mui-focused {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
