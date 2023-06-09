@@ -22,7 +22,7 @@ export default function App() {
           <br></br>
           And as they say: you can't manage what you don't measure. 
           <br></br>
-          Find out your household's carbon footprint with this short quiz.</div>
+          <strong>Find out your household's carbon footprint with this short quiz.</strong></div>
           <Button
               className='App-btn'
               onClick={() => setShowQuiz(true)}
